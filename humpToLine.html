@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const hump = "currentUserLevel";
+
+      // 匹配到大写的字符，转换成 _和小写字符
+      const humpToLine = (str) =>
+        str.replace(/[A-Z]/g, (p) => `_${p.toLowerCase()}`);
+      console.log(humpToLine(hump));
+
+      // 匹配到_和后一个字符，转换成后一个字符的大写。
+      const lineToHump = (str) =>
+        str.replace(/(_)(\w)/g, (p, p1, p2) => p2.toUpperCase());
+      console.log(lineToHump(humpToLine(hump)));
+    </script>
+  </body>
+</html>
