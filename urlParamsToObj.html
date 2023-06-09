@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * url组成: 协议+域名+端口(http默认80,https默认443)+文件路径+参数+锚点
+         **/
+        const url = "https://www.xxx.com:443/pages/index.html?name=jack&age=18#profile"
+        const url2 = "https://www.google.com/search?q=%E4%BD%A0%E5%A5%BD"
+        /**
+         * url参数转对象形式
+         * 1. 通过 ? 符号 slice出来参数 如 "name=jack&age=18" 格式
+         * 2. 通过 & 符号 将参数split为 ["name=jack", "age=18"] 格式
+         * 3. 通过 = 符号 遍历将上面结果split 为 ["name","jack"] 格式
+         * 4. 上面结果arr[0]: arr[1] 即为最终结果
+         **/
+        const urlParamsToObj = (url) => {
+            const res = { }
+            const startIndex = url.indexOf("?")
+            let endIndex = url.indexOf("#")
+            if (endIndex === -1) {
+                endIndex = url.length
+            }
+            const params = url.slice(startIndex + 1, endIndex)
+            const paramsSplit = params.split("&")
+            paramsSplit.forEach((item) => {
+                const itemSplit = item.split("=")
+                res[itemSplit[0]] = itemSplit[1]
+            })
+            return res
+        }
+        console.log(urlParamsToObj(url), urlParamsToObj(url2));
+
+        const objToParams = (obj) => {
+            let res = ""
+            Object.keys(obj).forEach(key => {
+                res += `${key}=${obj[key]}&`
+            })
+            return res.slice(0, -1)
+        }
+        console.log(objToParams(urlParamsToObj(url)), objToParams(urlParamsToObj(url2)));
+        </script>
+</body>
+</html>
