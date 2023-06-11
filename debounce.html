@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="btn1">防抖测试</button>
+    <button id="btn2">节流测试</button>
+    <script>
+      const fn = (n) => {
+        console.log(this, n);
+      };
+      const deb = debounce(() => {
+        fn("防抖测试");
+      }, 1000)
+      const thr = throttle(() => {
+        fn("节流测试");
+      }, 1000);
+
+      document.querySelector("#btn1").addEventListener("click", deb);
+      document.querySelector("#btn2").addEventListener("click", thr);
+
+      // 防抖，规定时间内只触发最后一次 input远程获取数据 调整浏览器size
+      function debounce(fn, time) {
+        let timer = null;
+        return function(){
+          if (timer !== null) {
+            clearTimeout(timer);
+          }
+          timer = setTimeout(() => {
+            fn(...arguments);
+            timer = null;
+          }, time);
+        };
+      }
+
+      // 节流，先触发后规定时间后再触发 记录播放进度
+      function throttle(fn, time) {
+        let bol = true;
+        return function () {
+          if (bol) {
+            fn(...arguments);
+            bol = false;
+            setTimeout(() => {
+              bol = true;
+            }, time);
+          }
+        };
+      }
+    </script>
+  </body>
+</html>
