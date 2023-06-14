@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>深拷贝</title>
+  </head>
+  <body>
+    <script>
+      // 测试数据
+      const obj = {
+        a: 1,
+        b: "2",
+        c: false,
+        d: undefined,
+        e: null,
+        f: Symbol(),
+        g: BigInt(1000000000000),
+        h: {
+          j: {
+            k: 1,
+          },
+          l: [12, {}, 333],
+        },
+        i: [1, 2, 3, 4, 5],
+        k: (n) => {
+          console.log(n);
+        },
+        m: function (n, m) {
+          console.log(n + m);
+        },
+        n: new Date(),
+        o: /[A-z]/g,
+        p: { p: [0, 1, 2, Math.PI] },
+        w: {
+          x: 999,
+          y: function () {
+            console.log(1);
+          },
+          z: () => 1,
+        },
+      };
+      obj.self = obj; // 添加一个相互引用
+      // 封装深拷贝
+      const cache = new Map()
+      function deepCopy(obj) {
+        if (cache.has(obj)) {
+            return cache.get(obj)
+        }
+        if (!(obj instanceof Object)) {
+          return obj; // 基本数据类型直接返回
+        }
+        // 时间正则函数暂时直接返回,这些值一般直接替换很少改变
+        if (obj instanceof Date || obj instanceof RegExp || obj instanceof Function) {
+            return obj;
+        }
+        // 引用类型
+        let newObj;
+        if (obj instanceof Array) {
+          newObj = [];
+          for (let i = 0; i < obj.length; i++) {
+            newObj[i] = deepCopy(obj[i]); // 数组递归深拷贝每一项
+          }
+        } else {
+          newObj = {};
+          cache.set(obj,newObj)
+          for (let key in obj) {
+            newObj[key] = deepCopy(obj[key]); // 普通对象递归深拷贝每个key值
+          }
+        }
+        return newObj;
+      }
+      const copy = deepCopy(obj);
+      console.log(obj, copy);
+    </script>
+  </body>
+</html>
