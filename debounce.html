@@ -30,7 +30,8 @@
             clearTimeout(timer);
           }
           timer = setTimeout(() => {
-            fn(...arguments);
+            fn.apply(undefined, arguments);
+            // fn(...arguments); 写法2
             timer = null;
           }, time);
         };
@@ -41,7 +42,8 @@
         let bol = true;
         return function () {
           if (bol) {
-            fn(...arguments);
+            fn.apply(undefined, arguments);
+            // fn(...arguments); 写法2
             bol = false;
             setTimeout(() => {
               bol = true;
