@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const useCountdown = (init = 10) => {
   if (!(init > 1)) {
-    throw new Error("useCountdown 需要 init > 1");
+    throw new RangeError("useCountdown requires init > 1");
   }
   const [count, setCount] = useState(init);
   useEffect(() => {
